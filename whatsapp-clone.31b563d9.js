@@ -22637,7 +22637,7 @@ parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
-var _profilePicJpg = require("../assets/images/profile-pic.jpg");
+var _profilePicJpg = require("../assets/images/profile-pic.jpg"); // Adjust the path as necessary
 var _profilePicJpgDefault = parcelHelpers.interopDefault(_profilePicJpg);
 var _s = $RefreshSig$();
 const defaultAvatar = 'https://ui-avatars.com/api/?background=random&name=User';
