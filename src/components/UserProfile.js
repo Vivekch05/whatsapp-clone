@@ -1,11 +1,19 @@
 import React, { useRef } from 'react';
+import ProfilePicture from '../assets/images/profile-pic.jpg';
 
 const defaultAvatar =
   'https://ui-avatars.com/api/?background=random&name=User';
 
-const UserProfile = ({ user, onEdit, onProfilePicChange }) => {
-    const fileInputRef = useRef(null);
+const initialUser = {
+    name: 'Vivek',
+    profilePic: ProfilePicture,
+    email: 'vivek@example.com',
+    phone: '+91-1234567890'
+};
 
+const UserProfile = ({ user = initialUser, onEdit, onProfilePicChange }) => {
+    const fileInputRef = useRef(null);
+console.log('UserProfile', user);
     const handlePicClick = () => {
         fileInputRef.current.click();
     };
@@ -33,7 +41,7 @@ const UserProfile = ({ user, onEdit, onProfilePicChange }) => {
         }}>
             <div style={{ position: 'relative', display: 'inline-block', marginBottom: 16 }}>
                 <img
-                    src={user.profilePic || defaultAvatar}
+                    src={user.profilePic||ProfilePicture}
                     alt={user.name}
                     style={{
                         width: 80,

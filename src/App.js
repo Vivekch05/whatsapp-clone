@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import ChatWindow from './components/ChatWindow';
 import ChatList from './components/ChatList';
-import './assets/styles.css';
 import ProfilePicture from './assets/images/profile-pic.jpg';
-import { io } from 'socket.io-client';
+import './assets/styles.css';
 
 const initialChats = [
     {
@@ -34,36 +33,10 @@ const initialUser = {
     phone: '+91-1234567890'
 };
 
-const SOCKET_SERVER_URL = "wss://socket-io-chat.now.sh/"; // Public demo server
-
 const App = () => {
     const [chats, setChats] = useState(initialChats);
     const [selectedChatId, setSelectedChatId] = useState(null);
     const [user, setUser] = useState(initialUser);
-    const socketRef = useRef(null);
-
-    useEffect(() => {
-        // Connect to socket server
-        socketRef.current = io(SOCKET_SERVER_URL);
-
-        // Listen for incoming messages
-        socketRef.current.on('chat message', ({ chatId, sender, text }) => {
-            setChats(prevChats =>
-                prevChats.map(chat =>
-                    chat.id === chatId
-                        ? {
-                            ...chat,
-                            messages: [...chat.messages, { sender, text }]
-                        }
-                        : chat
-                )
-            );
-        });
-
-        return () => {
-            socketRef.current.disconnect();
-        };
-    }, []);
 
     const handleChatSelect = (chat) => {
         setSelectedChatId(chat.id);
@@ -71,13 +44,6 @@ const App = () => {
 
     const handleSendMessage = (message) => {
         if (!selectedChatId) return;
-        // Emit message to socket server
-        socketRef.current.emit('chat message', {
-            chatId: selectedChatId,
-            sender: user.name,
-            text: message
-        });
-        // Optimistically update UI
         setChats(prevChats =>
             prevChats.map(chat =>
                 chat.id === selectedChatId
@@ -102,7 +68,7 @@ const App = () => {
                 onSelectChat={handleChatSelect}
                 selectedChatId={selectedChatId}
                 onUpdateUser={handleUpdateUser}
-                onProfilePicChange={newPic => setUser({ ...user, profilePic: newPic })}
+                onProfilePicChange={newPic => setUser({ ...user, profilePic: newPic|| ProfilePicture })}
             />
             <div className="main-chat-area">
                 {selectedChatId ? (
